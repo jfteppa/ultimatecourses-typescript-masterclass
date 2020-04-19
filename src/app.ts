@@ -1,65 +1,72 @@
-// Object Literal
-const myObj = {
-  myObjectMethod() {
-    console.log('myObjectMethod Object:::', this);
-    // this is my Custom Object
-  },
-};
-// myObj.myObjectMethod();
+class MyClass {
+  public foo: string = '000';
 
-// Function
-function myFunction(text: string, arg2: string) {
-  console.log('myFunction Function:::', this, text, arg2);
-  // this is my Window Object
-}
-myFunction('ABC', 'DEF');
+  myMethod() {
+    console.log('myMethod this', this);
+    const foo = 123;
+    console.log('myMethod foo', foo);
+    console.log('myMethod this.foo', this.foo);
 
-/**
- * it will call the funciton
- * but it changes context
- */
-myFunction.call(myObj, 'call', 'DEF');
+    const classContext = this;
 
-myFunction.call([]);
+    /**
+     * everytime we create a new function
+     * we are crrating a new scope.
+     */
+    setTimeout(function () {
+      console.log('setTimeout foo', foo);
 
-/**
- * difference between call and apply is
- * apply passes the arguments in array and call
- * passes the arguments comma separated.
- */
-myFunction.apply(myObj, ['apply', 'DEF']);
+      /**
+       * this.foo is undefined because this have a different scope
+       * the contest is not longe MyClass.
+       * this belongs to the scope of the setTimeout function.
+       */
+      console.log('setTimeout this.foo', this.foo);
+      this.foo = 99999;
+      console.log('setTimeout this.foo', this.foo);
 
-/**
- * c = call = comma
- * a = apply = array
- */
+      // this is from the window context.
+      console.log('setTimeout this', this);
 
-/**
- * .bind let us change the context ahead of time
- * call and apply invoke the funciton,
- * .bind does not call the function but returns a new bind function
- *
- */
+      console.log('classContext', classContext);
+    }, 1000);
+  }
 
-console.log('======================================');
+  /**
+   * this creates a new scope.
+   */
+  myMethod2() {
+    const foo = 4562;
+    console.log('myMethod2 foo', foo);
+    console.log('myMethod2 this.foo', this.foo);
+  }
 
-class myClass {
-  myCalssMethod2() {
-    console.log('myCalssMethod2', this);
+  myMethod3() {
+    console.log('myMethod3 this', this);
+
+    /**
+     * ARROW FUNCTIONS DOES NOT INHERITE THAT this VALUE
+     * DOES NOT BIND AT this VALUE
+     * IN OTHER WORDS IT DOES NOT BIND AND CHANGE THE VALUE OF this.
+     */
+    setTimeout(() => {
+      console.log('setTimeout this', this);
+    }, 1000);
   }
 }
-const bindFunction = myFunction.bind(myClass, 'bind', '123');
+const myClassInstance = new MyClass();
+// myClassInstance.myMethod();
+// myClassInstance.myMethod2();
+// console.log('myClassInstance.foo', myClassInstance.foo);
+myClassInstance.myMethod3();
 
-myFunction.call(myObj, 'call', 'DEF');
-myFunction.apply(myObj, ['apply', 'DEF']);
-
-bindFunction(); // arguments does not change
-bindFunction('bind', '456'); // arguments does not change
+console.log(this);
 
 /**
- * this way we can change the arguments after binding
- * with the new context
+ * ARROW FUNCTIONS DOES NOT INHERITE THAT this VALUE
+ * DOES NOT BIND AT this VALUE
+ * IN OTHER WORDS IT DOES NOT BIND AND CHANGE THE VALUE OF this.
  */
-const bindFunction2 = myFunction.bind(myClass);
-bindFunction2();
-bindFunction2('bind', '789');
+setTimeout(() => {
+  console.log('setTimeout2 this', this);
+}, 0);
