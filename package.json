@@ -6,9 +6,10 @@
     "start": "webpack-dev-server"
   },
   "devDependencies": {
-    "awesome-typescript-loader": "3.4.1",
-    "typescript": "2.7.2",
-    "webpack": "3.10.0",
-    "webpack-dev-server": "3.1.11"
+    "awesome-typescript-loader": "^5.2.1",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.1",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.10.3"
   }
 }
