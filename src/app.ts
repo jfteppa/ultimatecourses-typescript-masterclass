@@ -1,72 +1,34 @@
-class MyClass {
-  public foo: string = '000';
+const elem = document.querySelector('.click');
 
-  myMethod() {
-    console.log('myMethod this', this);
-    const foo = 123;
-    console.log('myMethod foo', foo);
-    console.log('myMethod this.foo', this.foo);
-
-    const classContext = this;
-
-    /**
-     * everytime we create a new function
-     * we are crrating a new scope.
-     */
-    setTimeout(function () {
-      console.log('setTimeout foo', foo);
-
-      /**
-       * this.foo is undefined because this have a different scope
-       * the contest is not longe MyClass.
-       * this belongs to the scope of the setTimeout function.
-       */
-      console.log('setTimeout this.foo', this.foo);
-      this.foo = 99999;
-      console.log('setTimeout this.foo', this.foo);
-
-      // this is from the window context.
-      console.log('setTimeout this', this);
-
-      console.log('classContext', classContext);
-    }, 1000);
-  }
-
+function handleClick(event: Event) {
+  event.preventDefault();
+  console.log('handleClick this', this);
   /**
-   * this creates a new scope.
+   * at this point "this" is the dom element and we can try something like
+   * this.href but when hovering the "this" it will be type any
+   *
+   * We change the tsconfig and add the noImplicitThis.
+   * after this the "this" will be red
    */
-  myMethod2() {
-    const foo = 4562;
-    console.log('myMethod2 foo', foo);
-    console.log('myMethod2 this.foo', this.foo);
-  }
-
-  myMethod3() {
-    console.log('myMethod3 this', this);
-
-    /**
-     * ARROW FUNCTIONS DOES NOT INHERITE THAT this VALUE
-     * DOES NOT BIND AT this VALUE
-     * IN OTHER WORDS IT DOES NOT BIND AND CHANGE THE VALUE OF this.
-     */
-    setTimeout(() => {
-      console.log('setTimeout this', this);
-    }, 1000);
-  }
 }
-const myClassInstance = new MyClass();
-// myClassInstance.myMethod();
-// myClassInstance.myMethod2();
-// console.log('myClassInstance.foo', myClassInstance.foo);
-myClassInstance.myMethod3();
 
-console.log(this);
+// elem.addEventListener('click', handleClick, false);
+elem.addEventListener('click', handleClick2, false);
 
 /**
- * ARROW FUNCTIONS DOES NOT INHERITE THAT this VALUE
- * DOES NOT BIND AT this VALUE
- * IN OTHER WORDS IT DOES NOT BIND AND CHANGE THE VALUE OF this.
+ * typing "this"
+ * it will look like an argument
+ * however it is not an argument of the function
+ * and it will not affect the other arguments
+ *
+ * when typing the "this" and hovering on it
+ * it will show more info and when looking for its elements or functions
+ * with "." we will be able to se them
+ *
+ * event still the 1st actually argument.
  */
-setTimeout(() => {
-  console.log('setTimeout2 this', this);
-}, 0);
+function handleClick2(this: HTMLAnchorElement, event: Event) {
+  event.preventDefault();
+  console.log('handleClick2 this.href', this.href);
+  console.log('handleClick2 this.className', this.className);
+}
