@@ -55,9 +55,9 @@ class MyClass {
   }
 }
 const myClassInstance = new MyClass();
-// myClassInstance.myMethod();
-// myClassInstance.myMethod2();
-// console.log('myClassInstance.foo', myClassInstance.foo);
+myClassInstance.myMethod();
+myClassInstance.myMethod2();
+console.log('myClassInstance.foo', myClassInstance.foo);
 myClassInstance.myMethod3();
 
 console.log(this);
