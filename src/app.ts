@@ -1,40 +1,92 @@
-const person = {
-  name: 'Teppa',
-  age: 33,
-};
-
-type Person = typeof person;
-type PersonKeys = keyof Person;
-type PersonTypes = Person[PersonKeys];
-
-// generic types, in this case T and K
-function getProperty<T, K extends keyof T>(obj: T, key: K) {
-  return obj[key];
+interface Person {
+  name: string;
+  age: number;
+  gender: string;
 }
 
-// hover on personName we will see string
-const personName = getProperty(person, 'name');
-console.log(
-  'personName: ',
-  personName,
-  ' personName typeof:',
-  typeof personName
-);
+interface ReadOnlyPerson {
+  readonly name: string;
+  readonly age: number;
+}
 
-// hover on personAge we will see number
-const personAge = getProperty(person, 'age');
-console.log('personAge: ', personAge, ' personAge typeof:', typeof personAge);
-
-// const personTest = getProperty(person, 'names'); // does not exist on Person
-// const personTest2 = getProperty(person, 'ages'); // does not exist on Person
-
-const person2 = {
-  male: true,
-  arr: [1, 2, 3],
+const person: Person = {
+  name: 'Juan',
+  age: 33,
+  gender: 'male',
 };
 
-// hover on personGender we will see boolean
-const personGender = getProperty(person2, 'male');
+/**
+ * lets make our obj inmutable
+ * const does not let you reasign
+ * but it lets you change/mutate it's property values
+ */
 
-// hover on arr we will see number[]
-const arr = getProperty(person2, 'arr');
+person.name = 'ABC';
+
+function freezePerson(person: Person): ReadOnlyPerson {
+  return Object.freeze(person);
+}
+
+// newPerson: ReadOnlyPerson
+const newPerson = freezePerson(person);
+
+// Cannot assign to 'name' because it is a read-only property.
+// newPerson.name = 'ABC';
+// newPerson.gender we need to add it to the ReadOnlyPerson interface
+
+/**
+ * we don't need the interface to return a readonly object,
+ * if we add another property this will take care of it
+ * with the interface we need to declare all of them
+ */
+function freezePerson2(person: Person) {
+  return Object.freeze(person);
+}
+
+// const newPerson2: Readonly<Person>
+const newPerson2 = freezePerson2(person);
+
+// newPerson2.name = 'ABC';
+
+// it takes care of all of the properties in the object
+// newPerson2.gender = 'female';
+
+// we can rewrite the function to be more generic
+
+function freezeObj(obj: object) {
+  return Object.freeze(obj);
+}
+
+// let newPerson3: object
+const newPerson3 = freezeObj(person);
+
+// with the example above we don't know the type of newPerson3
+
+/**
+ *
+ * getting the type of the object
+ * we know freezePerson2 returns Readonly<Person>
+ * we need to return Readonly<ObjectType>
+ * We are mapping the return object to the type
+ * of the received object
+ */
+function freezeObjType<T>(obj: T): Readonly<T> {
+  return Object.freeze(obj);
+}
+
+// const newPerson4: Readonly<Person>
+const newPerson4 = freezeObjType(person);
+
+type MyReadOnly<ObjectType> = {
+  readonly [ObjProperty in keyof ObjectType]: ObjectType[ObjProperty];
+};
+
+function freeze<T>(obj: T): MyReadOnly<T> {
+  return Object.freeze(obj);
+}
+
+// const np: MyReadOnly<Person>
+const np = freeze(person);
+
+// Cannot assign to 'age' because it is a read-only property.ts(2540)
+// np.age = 123
