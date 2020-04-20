@@ -4,45 +4,37 @@ const person = {
 };
 
 type Person = typeof person;
-
-const anotherPerson: Person = {
-  name: 'John',
-  age: 30,
-};
-
-/**
- * Union of keys, in this case "name" | "age" (hover on PersonKeys)
- * again only on ts not js.
- * "name" or "age" are not types but I can see the keys
- */
 type PersonKeys = keyof Person;
-
-/**
- * this will give us the union of the types of the keys
- * in this case string | number (hover on PersonTypes)
- */
 type PersonTypes = Person[PersonKeys];
 
-// const anotherPerson2: PersonKeys = {};
-
-// const anotherPerson3: PersonTypes = {};
-
-class Aux {
-  public arg1: PersonKeys;
-  public arg2: PersonTypes;
-  public arg3: number;
-  public arg4: string;
+// generic types, in this case T and K
+function getProperty<T, K extends keyof T>(obj: T, key: K) {
+  return obj[key];
 }
 
-const auxInst = new Aux();
-// auxInst.arg1 = 1; // "name" or "age" are not types
-// auxInst.arg1 = 'string'; // "name" or "age" are not types
+// hover on personName we will see string
+const personName = getProperty(person, 'name');
+console.log(
+  'personName: ',
+  personName,
+  ' personName typeof:',
+  typeof personName
+);
 
-auxInst.arg2 = 1; // string | number
-auxInst.arg2 = 'string'; // string | number
+// hover on personAge we will see number
+const personAge = getProperty(person, 'age');
+console.log('personAge: ', personAge, ' personAge typeof:', typeof personAge);
 
-auxInst.arg3 = 1;
-// auxInst.arg3 = 'string'; // only umber
+// const personTest = getProperty(person, 'names'); // does not exist on Person
+// const personTest2 = getProperty(person, 'ages'); // does not exist on Person
 
-// auxInst.arg4 = 1; // only string
-auxInst.arg4 = 'string';
+const person2 = {
+  male: true,
+  arr: [1, 2, 3],
+};
+
+// hover on personGender we will see boolean
+const personGender = getProperty(person2, 'male');
+
+// hover on arr we will see number[]
+const arr = getProperty(person2, 'arr');
