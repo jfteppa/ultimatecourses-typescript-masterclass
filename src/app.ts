@@ -41,7 +41,7 @@ const newPerson3 = updatePerson3(person, { name: 'Juan Felipe 2' });
 console.log('newPerson3', newPerson3);
 
 // Generic
-function updateObj<T>(obj: T, prop: Partial<T>) {
+function updateObj<T>(obj: T, prop: Partial<T>): T {
   return { ...obj, ...prop };
 }
 
