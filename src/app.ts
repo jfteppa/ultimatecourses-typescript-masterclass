@@ -1,54 +1,66 @@
-function foo(bar: string | number) {
-  // functions available
-  // bar.toString
-  // bar.valueOf
-
-  if (typeof bar === 'string') {
-    // string; functions available
-    // bar.toLowerCase
-    // bar.substring
-    return bar.toUpperCase();
-  }
-  // bar.toExponential
-  // it needs the return or to have the else block to be able to see the options.
-  // outside of the conditional block
-  return bar.toFixed(2);
+class Foo {
+  bar() {}
 }
-
-class Song {
-  // constructor(public title: string, public duration: string | number) {}
-  constructor(public title: string, public duration: string | number) {}
-}
-
-function getSongDuration(item: Song) {
-  if (typeof item.duration === 'string') {
-    return item.duration;
-  }
-  const { duration } = item;
-  const minutes = Math.floor(duration / 60000);
-  const seconds = (duration / 1000) % 60;
-  return `${minutes}:${seconds}`;
-}
-
-const songDurationFromString = getSongDuration(
-  new Song('Wonderful wonderful', '05:31')
-);
-
-console.log(songDurationFromString);
-
-const songDurationFromMS = getSongDuration(
-  new Song('Wonderful wonderful', 330000)
-);
-
-console.log(songDurationFromMS);
 
 /**
- * the idea of this Type guard is for us to have the functions of the types
- * on TS after the passing 1 conditional
- * in this example the property can be string or number
- * if the property is a string then inside of the logic block it will be a string
- * and we can access all of the string functions
- * if it is not a string then (in this example) it is a number so we have
- * all the functions of a number, with TS there is no need then to make them to be
- * a string or number to have the functions for each type
+ * that foo class will be compiled into (custom objects in js)
+ * function Foo() {}
+ * Foo.prototype.bar = function () { };
  */
+
+const bar = new Foo();
+
+/**
+ * test the prototype property of a construtor
+ * exists somewhere in another object
+ */
+console.log(Object.getPrototypeOf(bar) === Foo.prototype);
+console.log(bar instanceof Foo);
+
+// type guard
+
+class Song {
+  constructor(public title: string, public duration: number) {}
+}
+
+class Playlist {
+  constructor(public name: string, public songs: Song[]) {}
+}
+
+function getItemName(item: Song | Playlist) {
+  // typeof item = 'object'
+  console.log(typeof item);
+
+  // handle item as song
+  if ((item as Song).title) {
+    //handle item as song
+    return (item as Song).title;
+  }
+  // handle item as playlist
+  return (item as Playlist).name;
+}
+
+function getItemName2(item: Song | Playlist) {
+  // Type Guard
+  if (item instanceof Song) {
+    return item.title;
+  }
+  // Type Guard
+  return item.name;
+}
+
+const songName = getItemName(new Song('Wonderful song', 30000));
+console.log('songName', songName);
+
+const playListName = getItemName(
+  new Playlist('Wonderful Playlist', [new Song('The Man', 30000)])
+);
+console.log('playListName', playListName);
+
+const songName2 = getItemName2(new Song('Wonderful song', 30000));
+console.log('songName', songName2);
+
+const playListName2 = getItemName2(
+  new Playlist('Wonderful Playlist', [new Song('The Man', 30000)])
+);
+console.log('playListName', playListName2);
