@@ -1,23 +1,35 @@
-function reverse(str: string): string;
-// function reverse(arr: any[]): any[];
-function reverse<T>(arr: T[]): T[];
-function reverse<T>(something: string | T[]): string | T[] {
-  if (typeof something === 'string') {
-    return something.split('').reverse().join('');
-  }
-  // with slice we are making a copy and returning a new
-  return something.slice().reverse();
+enum Sizes {
+  Small,
+  Medium,
+  Large,
 }
 
-reverse('Pepperoni');
-reverse(['Bacon', 'Pepperoni', 'Chili']);
+// compiled into
+/**
+  var Sizes;
+  (function (Sizes) {
+      Sizes[Sizes["Small"] = 0] = "Small";
+      Sizes[Sizes["Medium"] = 1] = "Medium";
+      Sizes[Sizes["Large"] = 2] = "Large";
+  })(Sizes || (Sizes = {}));
+ */
 
-// 1/2 reverse(str: string): string
-// 2/2 reverse(arr: any[]): any[]
-// reverse();
+console.log(Sizes.Large); // => 1
+console.log(Sizes[Sizes.Large]); // => Large
 
-// function reverse<string>(arr: string[]): string[] (+1 overload)
-reverse(['Bacon', 'Pepperoni', 'Chili']);
+/**
+ * we can stack/extend enums together
+ */
+enum Sizes {
+  ExtraLarge = 3,
+}
 
-// function reverse<number>(arr: number[]): number[] (+1 overload)
-reverse([1, 2, 3]);
+// compiled into
+/**
+   (function (Sizes) {
+      Sizes[Sizes["ExtraLarge"] = 3] = "ExtraLarge";
+  })(Sizes || (Sizes = {}));
+ */
+
+const selectedSize = 2;
+console.log(Sizes[selectedSize]); // => Large
