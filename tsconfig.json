@@ -12,8 +12,8 @@
     "module": "commonjs",
     "lib": ["dom", "es6"],
     "outDir": "dist",
-    "noImplicitThis": true
-    // "strict": true
+    "noImplicitThis": true,
+    "strict": true
     // "types": ["lodash", "express"]
   }
 }
