@@ -5,17 +5,18 @@ interface Order {
 }
 
 interface Stripe {
+  type: 'stripe';
   card: string;
   cvc: string;
 }
 
 interface Paypal {
+  type: 'paypal';
   email: string;
 }
 
 type CheckoutCard = Order & Stripe;
 type CheckoutPaypal = Order & Paypal;
-type CheckoutABC = Order & { name: string };
 
 const order: Order = {
   id: '123',
@@ -23,22 +24,26 @@ const order: Order = {
   currency: 'USD',
 };
 
-// const orderCard: CheckoutCard
 const orderCard: CheckoutCard = {
   ...order,
+  type: 'stripe',
   card: '1000 2000 3000 4000',
   cvc: '123',
 };
-console.log('orderCard', orderCard);
 
-// const orderPaypal: CheckoutPaypal
 const orderPaypal: CheckoutPaypal = {
   ...order,
+  type: 'paypal',
   email: 'abc@def.com',
 };
-console.log('orderPaypal', orderPaypal);
 
-// before spread operator existed
-// const assigned: CheckoutCard
-const assigned = Object.assign({}, order, orderCard);
-console.log('assigned', assigned);
+type Payload = CheckoutCard | CheckoutPaypal;
+
+function checkOut(payload: Payload) {
+  if (payload.type === 'stripe') {
+    console.log(payload.card, payload.cvc);
+  }
+  if (payload.type === 'paypal') {
+    console.log(payload.email);
+  }
+}
