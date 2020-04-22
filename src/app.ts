@@ -1,30 +1,31 @@
-interface Item {
-  name: string;
-}
-
-interface Artist extends Item {
-  songs: number;
-}
-
-// we can't extend but we can intersect
-type Artist2 = {
-  name: string;
-} & Item;
-
-// Interface, merge declarations
 interface Artist {
-  getSongs(): number;
+  name: string;
 }
 
-// we can't have types with the same name, but we can with interfaces
-/* type Artist2 = {
-  name: string;
-} & Item; */
+class ArtistCreator implements Artist {
+  constructor(public name: string) {}
+}
 
-const newArtist: Artist = {
-  name: 'ABC',
-  songs: 5,
-  getSongs() {
-    return this.songs;
-  },
-};
+function artistFactory({ name }: Artist) {
+  return new ArtistCreator(name);
+}
+
+// const artist: ArtistCreator
+const artist = artistFactory({ name: 'Juan' });
+
+class ArtistCreator2 {
+  constructor(public name: string) {}
+}
+
+function artistFactory2({ name }: ArtistCreator2) {
+  return new ArtistCreator(name);
+}
+
+// const artist2: ArtistCreator
+const artist2 = artistFactory2({ name: 'Juan Felipe' });
+
+/**
+ * if we need to have some instance or implementation we would go with the class
+ * if we just need to type check and not implement any methods or instantiate objects
+ * then we can just create an interface
+ */
