@@ -1,3 +1,11 @@
+/*
+  “types” Compiler Option
+  We can be more explicit when it comes to providing type files by using the types property. 
+  This restricts the types that TypeScript will lookup when type-checking, 
+  which means only types listed here (and that are installed) will be available and any others ignored. 
+  This may be a preferable opt-in to avoid any global variables leaking.
+  { “compilerOptions”: { “types” : [ “lodash”, “express” ] } }
+*/
 {
   "compilerOptions": {
     "target": "es5",
@@ -6,5 +14,6 @@
     "outDir": "dist",
     "noImplicitThis": true
     // "strict": true
+    // "types": ["lodash", "express"]
   }
 }
