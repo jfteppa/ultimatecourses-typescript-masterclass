@@ -1,63 +1,44 @@
-const exists = 'localStorage' in window;
-console.log('localStorage in window: ', exists);
-// it checks if the object has a property
-// it does not matter if the property value is false or null
-const win = {
-  f: false,
-  n: null,
+interface Order {
+  id: string;
+  amount: number;
+  currency: string;
+}
+
+interface Stripe {
+  card: string;
+  cvc: string;
+}
+
+interface Paypal {
+  email: string;
+}
+
+type CheckoutCard = Order & Stripe;
+type CheckoutPaypal = Order & Paypal;
+type CheckoutABC = Order & { name: string };
+
+const order: Order = {
+  id: '123',
+  amount: 100,
+  currency: 'USD',
 };
-console.log('f' in win);
-console.log('n' in win);
 
-class Song {
-  // literal type
-  // type 'song'
-  // (property) Song.kind: "song"
-  kind: 'song';
+// const orderCard: CheckoutCard
+const orderCard: CheckoutCard = {
+  ...order,
+  card: '1000 2000 3000 4000',
+  cvc: '123',
+};
+console.log('orderCard', orderCard);
 
-  // type 'string'
-  // (property) Song.kind2: string
-  kind2 = 'song';
+// const orderPaypal: CheckoutPaypal
+const orderPaypal: CheckoutPaypal = {
+  ...order,
+  email: 'abc@def.com',
+};
+console.log('orderPaypal', orderPaypal);
 
-  constructor(public title: string, public duration: number) {}
-}
-
-class Playlist {
-  kind: 'playlist';
-  kind2 = 'playlist';
-  constructor(public name: string, public songs: Song[]) {}
-}
-
-function isSong(item: any): item is Song {
-  return item instanceof Song;
-}
-
-function isSong2(item: any): item is Song {
-  return 'title' in item;
-}
-
-function getItemName(item: Song | Playlist) {
-  if (item.kind2 === 'song') {
-    // (parameter) item: Song | Playlist
-    // return item.title; // error
-  }
-  if (item.kind === 'song') {
-    // (parameter) item: Song
-    return item.title;
-  }
-  if (isSong2(item)) {
-    return item.title;
-  }
-  if (isSong(item)) {
-    return item.title;
-  }
-  return item.name;
-}
-
-const songName = getItemName(new Song('Wonderful song', 30000));
-console.log('songName', songName);
-
-const playListName = getItemName(
-  new Playlist('Wonderful Playlist', [new Song('The Man', 30000)])
-);
-console.log('playListName', playListName);
+// before spread operator existed
+// const assigned: CheckoutCard
+const assigned = Object.assign({}, order, orderCard);
+console.log('assigned', assigned);
