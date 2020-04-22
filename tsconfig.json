@@ -8,6 +8,8 @@
 */
 {
   "compilerOptions": {
+    "declaration": true,
+    "declarationDir": "./src/@types",
     "target": "es5",
     "module": "commonjs",
     "lib": ["dom", "es6"],
