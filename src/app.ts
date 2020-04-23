@@ -1,9 +1,30 @@
-Array.isArray([]);
+console.log('hello');
 
-// this should not exist on type ArrayConstructor
-Array.from(document.querySelectorAll('*'));
-/**
- * Cannot find name 'document'.
- * Do you need to change your target library?
- * Try changing the `lib` compiler option to include 'dom'
- */
+// "strictPropertyInitialization": true
+// Examples
+class Person {
+  name: string;
+}
+
+class Person2 {
+  name: string;
+  constructor(public name: string) {}
+}
+
+class Person2 {
+  constructor(public name: string) {}
+}
+
+class Person3 {
+  constructor(public name: string) {
+    this.name = name;
+  }
+}
+
+class Person4 {
+  name: string;
+
+  constructor(name: string) {
+    this.name = name;
+  }
+}

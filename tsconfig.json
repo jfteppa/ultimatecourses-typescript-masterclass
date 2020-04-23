@@ -1,28 +1,18 @@
 {
   "compilerOptions": {
-    /*
-      target es5 will try to generate the es5 libraries
-      however if we want to use things from es6
-      we use the lib property
-    */
     "target": "es5",
-    /*
-      I want to load the type declaration files,
-      my code base is available in es6
-    */
-    /*
-      when we are dealing with the Dom,
-      we want to deal with the Dom api 
-    */
-
-    // defaults for es5
-    // "lib": ["dom", "es5", "scripthost"],
-
-    // if we were to use es6 this will be the defaults
-    // "lib": ["dom", "dom.iterable", "es5", "scripthost"],
-
     "lib": ["es6", "dom"],
     "module": "commonjs",
-    "outDir": "dist"
+    "outDir": "dist",
+    "strict": true,
+    /*
+     * "strict": true enables all of the following:
+     */
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictNullChecks": true,
+    "strictFunctionTypes": true,
+    "strictPropertyInitialization": true
   }
 }
