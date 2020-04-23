@@ -1,23 +1,28 @@
 {
   "compilerOptions": {
-    // "target": "es5", // to target old/new browsers
+    /*
+      target es5 will try to generate the es5 libraries
+      however if we want to use things from es6
+      we use the lib property
+    */
+    "target": "es5",
+    /*
+      I want to load the type declaration files,
+      my code base is available in es6
+    */
+    /*
+      when we are dealing with the Dom,
+      we want to deal with the Dom api 
+    */
 
-    // for es > 5 we will need to provide some polyfills
-    // to work with old browsers
+    // defaults for es5
+    // "lib": ["dom", "es5", "scripthost"],
 
-    // "target": "es2015", // es2015 = es6
-    // "target": "es2016", // es2016 = es7
-    "target": "es2017", // es2017 = es8
-    // es6, es7 and es8 do not differ that much
+    // if we were to use es6 this will be the defaults
+    // "lib": ["dom", "dom.iterable", "es5", "scripthost"],
 
+    "lib": ["es6", "dom"],
     "module": "commonjs",
-    "lib": ["dom", "es6"],
-    "outDir": "dist",
-    // experimental features:
-    // when we build angular apps we use decorators
-    // to enable decorators
-    "experimentalDecorators": true,
-    // @Component, @NgModule, @Injectable
-    "emitDecoratorMetadata": true
+    "outDir": "dist"
   }
 }
