@@ -8,6 +8,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    // "noEmitHelpers": true, // no need if we import the helpers
+    // npm install tslib --save and then we can just importHelpers
+    "importHelpers": true
   }
 }
