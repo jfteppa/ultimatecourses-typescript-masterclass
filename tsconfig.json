@@ -1,22 +1,15 @@
-/*
-  “types” Compiler Option
-  We can be more explicit when it comes to providing type files by using the types property. 
-  This restricts the types that TypeScript will lookup when type-checking, 
-  which means only types listed here (and that are installed) will be available and any others ignored. 
-  This may be a preferable opt-in to avoid any global variables leaking.
-  { “compilerOptions”: { “types” : [ “lodash”, “express” ] } }
-*/
 {
+  // "files": ["src/app.ts"],   // files
+  // "include": ["src/*.ts"], // folder/directory
+  // recursively loop through and keep down
+  "include": ["src/**/*.ts", "path2/**/*.ts"],
+  "exclude": ["src/**/*.spec.ts"],
+  // priority order: files, exlcude, include
+  "files": ["src/app.spec.ts"],
   "compilerOptions": {
-    "declaration": true,
-    "declarationDir": "./src/@types",
     "target": "es5",
     "module": "commonjs",
     "lib": ["dom", "es6"],
-    "outDir": "dist",
-    "noImplicitThis": true,
-    "strict": true,
-    "typeRoots": ["src/@types", "node_modules/@types"]
-    // "types": ["lodash", "express"]
+    "outDir": "dist"
   }
 }
