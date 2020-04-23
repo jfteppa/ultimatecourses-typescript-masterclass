@@ -1,7 +1,5 @@
-/* 
-  it gives error because eve thought 
-  in the tsconfig-base noImplicitAny is false
-  on src/tsconfig we inherite the options and overwrite
-*/
+console.log('Index');
+// with noImplicitAny: true, and noEmitOnError: true
+// because message implicitly has an 'any' type
+// the dist folder is not generated
 function log(message) {}
-function log2(message: string) {}
