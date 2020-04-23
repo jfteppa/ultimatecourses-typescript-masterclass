@@ -1,12 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es5",
+    // "target": "es5", // to target old/new browsers
+
+    // for es > 5 we will need to provide some polyfills
+    // to work with old browsers
+
+    // "target": "es2015", // es2015 = es6
+    // "target": "es2016", // es2016 = es7
+    "target": "es2017", // es2017 = es8
+    // es6, es7 and es8 do not differ that much
+
     "module": "commonjs",
     "lib": ["dom", "es6"],
     "outDir": "dist",
-    // "sourceMap": true,
-    // "mapRoot": "/mappings/", // if the maps are in oder directory
-    // "inlineSources": true, // if server does not sources as separate files
-    "inlineSourceMap": true // not recommended for big files
+    // experimental features:
+    // when we build angular apps we use decorators
+    // to enable decorators
+    "experimentalDecorators": true,
+    // @Component, @NgModule, @Injectable
+    "emitDecoratorMetadata": true
   }
 }
