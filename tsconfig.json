@@ -2,11 +2,11 @@
   "compilerOptions": {
     "target": "es5",
     "module": "commonjs",
-    // "module" "system",,
     "lib": ["dom", "es6"],
-    "noImplicitAny": true,
     "outDir": "dist",
-    // "outFile": "dist/bundle.js"
-    "noEmitOnError": true
+    // "sourceMap": true,
+    // "mapRoot": "/mappings/", // if the maps are in oder directory
+    // "inlineSources": true, // if server does not sources as separate files
+    "inlineSourceMap": true // not recommended for big files
   }
 }
